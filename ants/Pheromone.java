@@ -11,6 +11,11 @@ public class Pheromone extends Actor
     private GreenfootImage image;
     private final int MAX_INTENSITY = 180;
     private int intensity;
+    
+    public Pheromone()
+    {
+        intensity = MAX_INTENSITY;
+    }
     /**
      * Act - do whatever the Pheromone wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.

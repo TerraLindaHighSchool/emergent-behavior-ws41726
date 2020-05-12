@@ -11,7 +11,11 @@ public class Ant extends Creature
     private boolean carryingFood = false;
     private GreenfootImage image1;
     private GreenfootImage image2;
-   
+    private static final int MAX_PH_LEVEL = 18;
+    private final int MAX_PH_AVAILABLE = 16;
+    private final int TIME_FOLLOWING_TRAIL = 30;
+    private int pHAvailable = MAX_PH_AVAILABLE;
+    private int followTrailTimeRemaining = 0;
    /**
      * Create an ant with a given home hill. The initial speed is zero (not moving).
      */
