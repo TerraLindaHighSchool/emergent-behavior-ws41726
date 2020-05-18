@@ -11,15 +11,14 @@ public class Ant extends Creature
     private boolean carryingFood = false;
     private GreenfootImage image1;
     private GreenfootImage image2;
-    private static final int MAX_PH_LEVEL = 18;
     private final int MAX_PH_AVAILABLE = 16;
     private final int TIME_FOLLOWING_TRAIL = 30;
-    private int pHAvailable = MAX_PH_AVAILABLE;
+    private int phAvailable = MAX_PH_AVAILABLE;
     private int followTrailTimeRemaining = 0;
-   /**
+    /**
      * Create an ant with a given home hill. The initial speed is zero (not moving).
      */
-    public Ant(AntHill home)
+   public Ant(AntHill home)
     {
         setHomeHill(home);
         image1 = getImage();
@@ -28,7 +27,7 @@ public class Ant extends Creature
    /**
      * Do what an ant's gotta do.
      */
-    public void act()
+   public void act()
     {
         status();
     }
@@ -44,38 +43,84 @@ public class Ant extends Creature
     }
    private boolean atHome()
     {
-        if (getHomeHill() != null)
-        { 
-            return (Math.abs(getX() - getHomeHill().getX()) < 4) &&
-                   (Math.abs(getY() - getHomeHill().getY()) < 4);
-            
-        }
+        if(getHomeHill() != null)
+        {
+           return (Math.abs(getX() - getHomeHill().getX()) < 4) && 
+                  (Math.abs(getY() - getHomeHill().getY()) < 4);
+        }  
         else
         {
             return false;
         }
     }
    private void searchForFood()
-   {
-       randomWalk();
-       checkForFood();
-   }
+    {
+        if(followTrailTimeRemaining == 0)
+        {
+         walkTowardsPheromoneCenter();
+         randomWalk();
+        }
+        else
+        {
+            followTrailTimeRemaining--;
+            walkAwayFromHome();
+        }
+        checkForFood();
+    }
    private void status()
+    {
+        if(carryingFood == true)
+        {
+            handlePheromoneDrop();
+            walkTowardsHome();
+            if(atHome())
+            {
+                setImage(image1);
+                carryingFood = false;
+                getHomeHill().countFood();
+            }
+        }
+        else
+        {
+            searchForFood();
+        }
+    }
+   private void handlePheromoneDrop()
+    {
+        if(MAX_PH_AVAILABLE == 16)
+        {
+           Pheromone ph = new Pheromone();
+           getWorld().addObject(ph, getX(),getY());
+           phAvailable = 0;
+        }
+        else
+        {
+            phAvailable++;
+        }
+        status();
+    }
+    
+   public boolean smellsPheromone()
    {
-       if (carryingFood == true)
-       {
-           walkTowardsHome();
-           if(atHome())
-           {
-               setImage(image1);
-               carryingFood = false;
-               getHomeHill().countFood();
-           }
-       }
-       else
-       {
-           searchForFood();
-       }
+     if(isTouching(Pheromone.class))
+     {
+      return true;   
+     }
+     else
+     {
+        return false;
+     }
+   }
+   private void walkTowardsPheromoneCenter()
+   {
+     Pheromone pheromone = (Pheromone) getOneIntersectingObject(Pheromone.class);
+     if (pheromone != null)
+    {
+     headTowards(pheromone);
+     if (getX() == pheromone.getX() && getY() ==pheromone.getY())
+     {
+      followTrailTimeRemaining = TIME_FOLLOWING_TRAIL;    
+     }
+    }
    }
 }
-

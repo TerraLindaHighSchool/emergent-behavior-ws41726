@@ -18,65 +18,15 @@ public class AntWorld extends World
     {
         super(SIZE, SIZE, 1);
         setPaintOrder(Ant.class, AntHill.class);
-        prepare();
+    }
+    
+    public void act()
+    {
+        if(getObjects(Food.class).size() == 0)
+        {
+            Greenfoot.stop();
+        }
     }
 
-    /**
-     * Prepare the world for the start of the program.
-     * That is: create the initial objects and add them to the world.
-     */
-    private void prepare()
-    {
-        AntHill antHill = new AntHill();
-        addObject(antHill,161,225);
-        AntHill antHill2 = new AntHill();
-        addObject(antHill2,462,544);
-        Food food = new Food();
-        addObject(food,385,202);
-        Food food2 = new Food();
-        addObject(food2,339,358);
-        Food food3 = new Food();
-        addObject(food3,156,403);
-        Food food4 = new Food();
-        addObject(food4,339,487);
-        Food food5 = new Food();
-        addObject(food5,465,343);
-        Food food6 = new Food();
-        addObject(food6,239,36);
-        Food food7 = new Food();
-        addObject(food7,275,265);
-        Food food8 = new Food();
-        addObject(food8,581,491);
-        Food food9 = new Food();
-        addObject(food9,155,549);
-        Food food10 = new Food();
-        addObject(food10,491,106);
-        Food food11 = new Food();
-        addObject(food11,551,244);
-        Food food12 = new Food();
-        addObject(food12,68,104);
-        Food food13 = new Food();
-        addObject(food13,58,362);
-        Food food14 = new Food();
-        addObject(food14,450,235);
-        Food food15 = new Food();
-        addObject(food15,332,118);
-        food14.setLocation(448,233);
-        Food food16 = new Food();
-        addObject(food16,448,233);
-        food14.setLocation(454,245);
-        Food food17 = new Food();
-        addObject(food17,454,245);
-        food14.setLocation(440,238);
-        Food food18 = new Food();
-        addObject(food18,440,238);
-        food14.setLocation(445,242);
-        Food food19 = new Food();
-        addObject(food19,445,242);
-        food14.setLocation(457,227);
-        Food food20 = new Food();
-        addObject(food20,457,227);
-        Food food21 = new Food();
-        addObject(food21,461,225);
-    }
 }
+
